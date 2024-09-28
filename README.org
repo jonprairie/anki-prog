@@ -1,0 +1,25 @@
+#+title: anki-prog
+
+* dirty hack to write answers to multi-line programming questions from Anki in Emacs
+
+** why?
+I like to use {{type:Back}} flash cards for programming problems in Anki; this forces me to type in the answer instead of just thinking about it. unfortunately {{type:Back}} is limited to one-line answers only since as soon as you press enter the answer is submitted. because it's generally frowned on to implement binary search in one line of code I needed something better; plus I spent all this time customizing emacs to edit code exactly how I want (well, closer, bit by bit) so I should probably use it. at the very least it beats writing code in a one-line textbox.
+
+** what?
+:PROPERTIES:
+:ID:       6d96bb5e-ad28-44ce-a969-0835e0cab95e
+:END:
+anki-prog provides `anki-prog-do-current-card` which will query Anki about the current card, create a temporary org buffer, insert an org src block, and finally open a special edit session with the question commented out at the top. if there exists a Language field in the Anki note then the org src block will use that language, if not then it will ask what language to use first.
+
+anki-prog currently does not actually send the answer back to Anki or do a diff or anything like that, though both those ideas are tentatively on the radar.
+
+** why not?
+the usual: all of this is extremely unstable, only possibly maintained etc etc.
+
+** requires
+*** anki
+*** anki-connect (anki-plugin)
+*** emacs 28 or higher
+*** anki-editor (emacs package)
+*** dash
+*** s
