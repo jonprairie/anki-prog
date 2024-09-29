@@ -17,6 +17,6 @@ the usual: all of this is extremely unstable, only possibly maintained etc etc.
 - anki
 - anki-connect (anki-plugin)
 - emacs 28 or higher
-- anki-editor (emacs package)
+- anki-api
 - dash
 - s

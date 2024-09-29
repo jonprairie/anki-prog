@@ -7,7 +7,7 @@
 ;; Created: September 28, 2024
 ;; Modified: September 28, 2024
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "26.0"))
+;; Package-Requires: ((emacs "28.0"))
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -18,7 +18,7 @@
 ;;; Code:
 
 
-(require 'anki-editor)
+(require 'anki-api)
 (require 'dash)
 (require 's)
 
@@ -56,14 +56,16 @@
 
 (defun anki-prog-do-current-card ()
   (interactive)
-  (if-let (card (cdr (anki-editor-api-call-result 'guiCurrentCard)))
-      (let* ((fields (alist-get 'fields card))
-             (question (anki-prog-get-first-field fields))
-             (question (anki-prog-strip-html (alist-get 'value question)))
-             (lang (alist-get 'Language fields))
-             (lang (when lang (anki-prog-strip-html (alist-get 'value lang)))))
-        (anki-prog-begin-question question lang))
-    (message "No card being reviewed.")))
+  (let* ((request (anki-api-gui-current-card))
+         (card (anki-api-dispatch request)))
+    (if card
+        (let* ((fields (alist-get 'fields card))
+               (question (anki-prog-get-first-field fields))
+               (question (anki-prog-strip-html (alist-get 'value question)))
+               (lang (alist-get 'Language fields))
+               (lang (when lang (anki-prog-strip-html (alist-get 'value lang)))))
+          (anki-prog-begin-question question lang))
+      (message "No card being reviewed."))))
 
 (defun anki-prog-strip-html (s)
   "Remove HTML tags from string S."
